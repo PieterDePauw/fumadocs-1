@@ -19,8 +19,11 @@ const withAnalyzer = createBundleAnalyzer({
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  experimental: {
+    reactCompiler: true,
+  },
   eslint: {
-    // Replaced by root workspace command
+    // Replaced by root workspace commandπ
     ignoreDuringBuilds: true,
   },
   webpack: (config) => {
