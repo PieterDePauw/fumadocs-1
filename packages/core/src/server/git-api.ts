@@ -21,7 +21,7 @@ export interface GetGithubLastCommitOptions {
   path: string;
 
   /**
-   * Github access token
+   * GitHub access token
    */
   token?: string;
 
@@ -35,6 +35,8 @@ export interface GetGithubLastCommitOptions {
 
 /**
  * Get the last edit time of a file
+ *
+ * The result is cached by default, you may specify revalidation period with [options](https://nextjs.org/docs/app/api-reference/functions/fetch#optionsnextrevalidate)
  */
 export async function getGithubLastEdit({
   repo,
@@ -45,6 +47,7 @@ export async function getGithubLastEdit({
   params: customParams = {},
 }: GetGithubLastCommitOptions): Promise<Date | null> {
   const params = new URLSearchParams();
+  const headers = new Headers(options.headers);
   params.set('path', path);
   params.set('page', '1');
   params.set('per_page', '1');
@@ -54,13 +57,16 @@ export async function getGithubLastEdit({
   }
 
   if (token) {
-    options.headers = new Headers(options.headers);
-    options.headers.append('authorization', token);
+    headers.append('authorization', token);
   }
 
   const res = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/commits?${params.toString()}`,
-    options,
+    {
+      cache: 'force-cache',
+      ...options,
+      headers,
+    },
   );
 
   if (!res.ok)
