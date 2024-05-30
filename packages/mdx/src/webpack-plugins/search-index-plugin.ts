@@ -1,16 +1,7 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports -- Webpack */
 import * as path from 'node:path';
-import { createRequire } from 'node:module';
 import type { StructuredData } from 'fumadocs-core/mdx-plugins';
 import { createGetUrl, getSlugs, parseFilePath } from 'fumadocs-core/source';
-import type { Compiler } from 'webpack';
-
-const require = createRequire(import.meta.url);
-
-const pkg = require('next/dist/compiled/webpack/webpack.js') as {
-  sources: typeof import('webpack').sources;
-  webpack: typeof import('webpack');
-};
+import type * as Webpack from 'webpack';
 
 export interface SearchIndex {
   id: string;
@@ -53,7 +44,7 @@ export class SearchIndexPlugin {
     this.options = options;
   }
 
-  apply(compiler: Compiler): void {
+  apply(compiler: Webpack.Compiler): void {
     const {
       rootContentDir,
       productionOnly = true,
@@ -73,7 +64,7 @@ export class SearchIndexPlugin {
       compilation.hooks.processAssets.tap(
         {
           name: SearchIndexPlugin.name,
-          stage: pkg.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
+          stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
         },
         () => {
           const indexFiles = new Map<string, SearchIndex>();
@@ -107,7 +98,7 @@ export class SearchIndexPlugin {
 
           compilation.emitAsset(
             'fumadocs_search.json',
-            new pkg.sources.RawSource(
+            new compiler.webpack.sources.RawSource(
               JSON.stringify(Array.from(indexFiles.values())),
             ),
           );
