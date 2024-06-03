@@ -101,14 +101,14 @@ export function Sidebar({
         blockScrollingWidth={768} // md
         {...aside}
         className={cn(
-          'flex w-full flex-col text-[15px] md:fixed md:inset-y-0 md:start-0 md:w-[240px] md:border-e md:bg-card md:text-sm xl:w-[260px]',
-          'max-md:fixed max-md:inset-0 max-md:bg-background/80 max-md:backdrop-blur-md max-md:data-[open=false]:hidden',
+          'z-40 flex w-full flex-col text-[15px] md:fixed md:inset-y-0 md:start-0 md:w-[240px] md:border-e md:bg-card md:text-sm xl:w-[260px]',
+          'max-md:fixed max-md:inset-0 max-md:top-12 max-md:bg-background/80 max-md:backdrop-blur-md max-md:data-[open=false]:hidden',
           aside?.className,
         )}
       >
         <div className="flex flex-col gap-4 border-b p-3 md:p-2 md:pt-10">
           {banner}
-          <LargeSearchToggle />
+          <LargeSearchToggle className="max-md:hidden" />
         </div>
         <ViewportContent>
           {items.length > 0 && (

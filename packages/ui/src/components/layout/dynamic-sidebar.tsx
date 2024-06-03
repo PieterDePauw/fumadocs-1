@@ -64,7 +64,7 @@ export function DynamicSidebar(props: SidebarProps): React.ReactElement {
           onPointerLeave: onLeave,
           'aria-hidden': Boolean(collapsed && !hover),
           className: cn(
-            'z-40 overflow-hidden md:fixed md:inset-y-0 md:start-0 md:transition-transform',
+            'overflow-hidden md:fixed md:inset-y-0 md:start-0 md:transition-transform',
             collapsed &&
               'md:inset-y-2 md:start-2 md:rounded-xl md:border md:shadow-md',
           ),

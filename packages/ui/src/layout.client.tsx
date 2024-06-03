@@ -7,6 +7,8 @@ import { Menu } from 'lucide-react';
 import { useTreeContext } from '@/contexts/tree';
 import { cn } from '@/utils/cn';
 import { useSidebar } from '@/contexts/sidebar';
+import { SearchToggle } from '@/components/layout/search-toggle';
+import { buttonVariants } from '@/theme/variants';
 
 export { TreeContextProvider } from './contexts/tree';
 export { Nav } from './components/layout/nav';
@@ -21,11 +23,25 @@ export function BottomNav(): React.ReactElement {
   }, [pathname, ctx.navigation]);
 
   return (
-    <SidebarTrigger className="sticky bottom-0 z-50 inline-flex h-14 w-full items-center gap-2 border bg-card px-4 text-sm font-medium data-[open=true]:fixed md:hidden [&_svg]:size-5">
-      {page?.icon}
-      {page?.name}
-      <Menu className="ms-auto size-5 text-muted-foreground" />
-    </SidebarTrigger>
+    <header className="sticky top-0 inline-flex h-12 w-full items-center text-sm font-medium z-50 bg-card border-b pl-4 pr-2 md:hidden">
+      {page?.icon ? (
+        <div className="[&_svg]:size-4 me-2">{page?.icon}</div>
+      ) : null}
+      <p className="flex-1 truncate">{page?.name}</p>
+
+      <SearchToggle className="text-muted-foreground" />
+      <SidebarTrigger
+        className={cn(
+          buttonVariants({
+            size: 'icon',
+            color: 'ghost',
+            className: 'text-muted-foreground',
+          }),
+        )}
+      >
+        <Menu />
+      </SidebarTrigger>
+    </header>
   );
 }
 

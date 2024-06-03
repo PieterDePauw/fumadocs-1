@@ -119,6 +119,7 @@ export function DocsLayout({
 
   return (
     <TreeContextProvider tree={tree}>
+      <BottomNav />
       <Container {...containerProps}>
         {replaceOrDefault(
           sidebar,
@@ -141,7 +142,6 @@ export function DocsLayout({
 
         {children}
       </Container>
-      <BottomNav />
     </TreeContextProvider>
   );
 }
